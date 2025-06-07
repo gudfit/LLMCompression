@@ -749,5 +749,54 @@ Module CANONICAL_CONSTRUCTION (S : SETTING).
 
   End ParetoProperties.
   
+  Section LowerSetRefinement.
+  
+    Example K_can_maps_lower_sets_to_lower_sets :
+      forall (l : Lambda) (A : Powerset X),
+      Is_Lower_Set A -> Is_Lower_Set (K_can l A).
+    Proof.
+      intros l A H_A_ls.
+      apply K_can_preserves_Lower_Sets.
+      exact H_A_ls.
+    Qed.
+    
+    Context
+      (RA_monotone :
+       forall l1 l2, l1 <= l2 ->
+         Included X (RawAchievable l1) (RawAchievable l2))
+      (RA_Scott :
+       forall (D : Ensemble Lambda) (lambda_star : Lambda),
+         IsDirected D ->
+         lambda_star = supremum D ->
+         Same_set X (RawAchievable lambda_star)
+           (BICO.Union_indexed D RawAchievable)).
+    Example A3_Monotonicity_for_Lower_Sets :
+      forall (l : Lambda) (A B : Powerset X),
+      Is_Lower_Set A -> Is_Lower_Set B ->
+      Included X A B -> Included X (K_can l A) (K_can l B).
+    Proof.
+      intros l A B _ _.
+      apply Kcan_A3_Monotone_in_A; assumption.
+    Qed.
+    
+    Theorem context_in_refined_model_is_lower_set :
+      forall (l : Lambda) (C : Powerset X),
+      Is_Lower_Set C -> (Same_set X (K_can l C) C) -> Is_Lower_Set C.
+    Proof.
+      intros l C H_C_is_lower H_C_is_fixed_point.
+      assert (H_Kcan_is_LS : Is_Lower_Set (K_can l C)).
+      { apply K_can_preserves_Lower_Sets; assumption. }
+      unfold Is_Lower_Set.
+      intros x y H_y_in_C H_x_le_y.
+      apply (proj1 H_C_is_fixed_point).
+      unfold Is_Lower_Set in H_Kcan_is_LS.
+      apply (H_Kcan_is_LS x y).
+      - 
+        apply (proj2 H_C_is_fixed_point).
+        exact H_y_in_C.
+      -
+        exact H_x_le_y.
+    Qed.
+  End LowerSetRefinement.
 
 End CANONICAL_CONSTRUCTION.
