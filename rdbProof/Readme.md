@@ -4,23 +4,23 @@ A concise Coq library modeling how **information sets** evolve under **resource 
 
 **Key Concepts:**
 
-* **Domain**: A poset $(X,\le_X)$ of outcomes.
+- **Domain**: A poset $(X,\le_X)$ of outcomes.
 
-* **Budgets**: A dcpo $(Λ,\le)$ of resources.
+- **Budgets**: A dcpo $(Λ,\le)$ of resources.
 
-* **Closure operator** $K_λ:𝒫(X)\to𝒫(X)$**:**
+- **Closure operator** $K_λ:𝒫(X)\to𝒫(X)$**:**
 
-  * Extensivity: $A\subseteq K_λ(A)$
-  * Idempotence: $K_λ(K_λ(A))=K_λ(A)$
-  * Monotonicity: $A\subseteq B\implies K_λ(A)\subseteq K_λ(B)$
-  * Scott‑continuity: For directed $D\subseteqΛ$,
+  - Extensivity: $A\subseteq K_λ(A)$
+  - Idempotence: $K_λ(K_λ(A))=K_λ(A)$
+  - Monotonicity: $A\subseteq B\implies K_λ(A)\subseteq K_λ(B)$
+  - Scott‑continuity: For directed  $D\subseteq Λ$,
     $K_{\sup D}(A)=\bigcup_{λ∈D}K_λ(A).$
 
-* **InformationObject**: any $S⊆X$.
+- **InformationObject**: any $S⊆X$.
 
-* **CorrectedInformation**: $K_λ(S)$.
+- **CorrectedInformation**: $K_λ(S)$.
 
-* **Contexts**: fixed‑points $C=K_λ(C)$, forming a complete lattice.
+- **Contexts**: fixed‑points $C=K_λ(C)$, forming a complete lattice.
 
 ## Files
 
