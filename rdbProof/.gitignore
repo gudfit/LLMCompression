@@ -1,10 +1,12 @@
 # Coq build artifacts
 *.glob
 *.vo
+*.swp
 *.vok
 *.vos
 *.aux
 .*.aux
+*.v.crashrocqide
 
 # Coq project file
 _CoqProject

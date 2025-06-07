@@ -12,6 +12,7 @@ Module Composition (S : SETTING).
 
   Import S.
 
+  (* Open a section to properly scope the parameters. *)
   Section CompositionSection.
 
     Context
@@ -112,5 +113,53 @@ Module Composition (S : SETTING).
         exact (K_comp_is_extensive l1 l2 KA).
     Qed.
   End CompositionSection.
+
+(*===========================================================================*)
+(* Section 6.3b: Simple Composition for the Canonical Case                 *)
+(*===========================================================================*)
+
+  Section CanonicalCase.
+
+    Context
+      (GR1 : Powerset X)
+      (GR2 : Powerset X).
+
+    Definition K_can1 (A : Powerset X) : Powerset X := fun x => A x \/ GR1 x.
+    Definition K_can2 (A : Powerset X) : Powerset X := fun x => A x \/ GR2 x.
+    Definition F_can (A : Powerset X) : Powerset X := K_can2 (K_can1 A).
+
+    Lemma canonical_composition_is_simple : forall (A : Powerset X),
+      Same_set X (F_can A) (fun x => A x \/ GR1 x \/ GR2 x).
+    Proof.
+      intros A.
+      unfold F_can, K_can1, K_can2.
+      unfold Same_set.
+      split.
+      -
+        unfold Included, In.
+        intros x H.
+        tauto.
+      -
+        unfold Included, In.
+        intros x H.
+        tauto.
+    Qed.
+
+    Theorem canonical_composition_is_idempotent : forall (A : Powerset X),
+      Same_set X (F_can (F_can A)) (F_can A).
+    Proof.
+      intros A.
+      unfold F_can, K_can1, K_can2.
+      unfold Same_set, Included, In.
+      split.
+      - 
+        intros x H.
+        tauto.
+      -
+        intros x H.
+        tauto.
+    Qed.
+  End CanonicalCase.
+
 
 End Composition.

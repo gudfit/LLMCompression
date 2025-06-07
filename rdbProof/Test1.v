@@ -1,5 +1,4 @@
 Require Import Stdlib.Sets.Ensembles.
-Require Import Stdlib.Setoids.Setoid.
 Import Ensembles.
 From Stdlib Require Import Init.Logic.
 From Stdlib Require Import ssreflect ssrfun ssrbool.
@@ -260,17 +259,17 @@ Module BUDGET_INDEXED_CLOSURE_OPERATORS (S : SETTING).
   Proof.
     unfold IsDirected.
     split.
-    - 
+    - (* Inhabited *)
       destruct (Lambda_non_empty) as [l].
       exists l.
       apply Full_intro.
-    - 
+    - (* For every l1, l2 in Full_set Lambda, there exists u in Full_set Lambda with l1 <= u and l2 <= u *)
       intros l1 l2 Hl1 Hl2.
       destruct (A5_Lambda_directed l1 l2) as [u [Hu1 Hu2]].
       exists u. split.
-      + 
+      + (* u is in Full_set Lambda *)
         apply Full_intro.
-      + 
+      + (* l1 <= u and l2 <= u *)
         split; assumption.
   Qed.
 
@@ -283,92 +282,23 @@ Module BUDGET_INDEXED_CLOSURE_OPERATORS (S : SETTING).
   Proof.
     intros H_plateau.
     set (lambda_star := supremum (Full_set Lambda)).
+
+    (* 1.  λ₀ ≤ λ★ because λ★ is an upper bound of Λ. *)
     have Hle : lambda0 <= lambda_star.
     { pose proof
         (supremum_is_least_upper_bound
            (Full_set Lambda) IsDirected_Full_set) as [Hub _].
       specialize (Hub lambda0).
+      (* show λ₀ ∈ Full_set Λ *)
       apply Hub.
       apply Full_intro. }
+
+    (* 2.  Plateau hypothesis gives equality for λ★. *)
     specialize (H_plateau lambda_star Hle) as Heq.
+
+    (* 3.  Goal follows (symmetry only). *)
      destruct Heq as [Hstar_to_0 H0_to_star].
     split; [exact H0_to_star | exact Hstar_to_0].
-  Qed.
-  
-  Lemma IsDirected_budgets_above (l0 : Lambda) :
-    IsDirected (fun l => l0 <= l).
-  Proof.
-    unfold IsDirected.
-    split.
-    - 
-      exists l0.
-      apply le_Lambda_refl.
-    - 
-      intros l1 l2 H_l0_le_l1 H_l0_le_l2.
-      destruct (A5_Lambda_directed l1 l2) as [u [H_l1_le_u H_l2_le_u]].
-      exists u; split.
-    + 
-      apply le_Lambda_trans with l1; assumption.
-    + 
-      split; assumption.
-  Qed.
-  
-  Theorem P3_Plateau_Criterion_General
-      (A : Powerset X) (lambda0 : Lambda) :
-    (forall l : Lambda, lambda0 <= l ->
-      Same_set X (K_lambda l A) (K_lambda lambda0 A)) ->
-      Same_set X (K_lambda (supremum (fun l => lambda0 <= l)) A) (K_lambda lambda0 A).
-  Proof.
-    intros H_plateau.
-    set (D := fun l : Lambda => lambda0 <= l).
-    set (lambda_star := supremum D).
-    have H_scott : Same_set X (K_lambda lambda_star A)
-                           (Union_indexed D (fun l' => K_lambda l' A)).
-    { apply (A4_Scott_Continuity_in_lambda A D lambda_star).
-      - apply IsDirected_budgets_above.
-      - reflexivity. }
-    have H_union_eq : Same_set X (Union_indexed D (fun l' => K_lambda l' A))
-                              (K_lambda lambda0 A).
-    {
-      split.
-      - 
-        intros x Hx_in_union.
-        unfold Union_indexed in Hx_in_union.
-        destruct Hx_in_union as [l [Hl_in_D Hx_in_KlA]].
-        specialize (H_plateau l Hl_in_D) as H_same.
-        unfold Same_set in H_same.
-        destruct H_same as [H_incl_fwd _].
-        apply H_incl_fwd.
-        exact Hx_in_KlA.
-      - 
-        intros x Hx_in_Kl0A.
-        unfold Union_indexed.
-        exists lambda0.
-        split.
-        + 
-          apply le_Lambda_refl.
-        + 
-          exact Hx_in_Kl0A.
-    }
-    split.
-    - 
-      intros x Hx_in_star.
-      assert (Hx_in_union : Union_indexed D (K_op^~ A) x).
-      {
-        apply (proj1 H_scott).
-        exact Hx_in_star.
-      }
-      apply (proj1 H_union_eq).
-      exact Hx_in_union.
-    -
-      intros x Hx_in_l0.
-      assert (Hx_in_union : Union_indexed D (K_op^~ A) x).
-      {
-        apply (proj2 H_union_eq).
-        exact Hx_in_l0.
-      }
-      apply (proj2 H_scott).
-      exact Hx_in_union.
   Qed.
 
   
@@ -664,90 +594,29 @@ Module CANONICAL_CONSTRUCTION (S : SETTING).
     split.
     - intros Hid.
       specialize (Hid (Empty_set X)).
-      destruct Hid as [KsubsetE _EsubsetK].  
+      destruct Hid as [KsubsetE _EsubsetK].     (*  K ⊆ ∅  and  ∅ ⊆ K  *)
 
       split. 
-      + 
+      + (* RawAchievable zero ⊆ ∅ *)
         intros x HxRaw.
         assert (Hlc : GuaranteedRegion zero x).
         { exists x; split; [ exact HxRaw | apply le_X_refl ]. }
         assert (Hk : K_can zero (Empty_set X) x) by (right; exact Hlc).
         apply (KsubsetE _ Hk).
-      + 
+      + (* ∅ ⊆ RawAchievable zero *)
         intros x HxEmpty. inversion HxEmpty.
     - intros Hraw_empty A.
       destruct Hraw_empty as [RawToEmpty _EmptyToRaw].
       split; intros x H.
-      + 
+      + (* inclusion K ⊆ A *)
         destruct H as [HA | Hgr]; [ exact HA |].
         destruct Hgr as [a [HaRaw _]].
         specialize (RawToEmpty _ HaRaw). inversion RawToEmpty.
-      + 
+      + (* inclusion A ⊆ K: always by left disjunct *)
         left; exact H.
   Qed.
 
   End ZeroBudget.
 
-(*===========================================================================*)
-(* Section 4.2+ : Properties of the Pareto Frontier                         *)
-(*===========================================================================*)
-
-  Section ParetoProperties.
-
-  Axiom has_minimals : forall A : Powerset X,
-    (Inhabited X A) -> (Inhabited X (minimals A)).
-
-  Theorem pareto_frontier_is_subset_of_raw_achievable :
-    forall l, Included X (ParetoFrontier l) (RawAchievable l).
-  Proof.
-    intros l; unfold ParetoFrontier, minimals; intros x [H_RAx _].
-    exact H_RAx.
-  Qed.
-
-  Definition upper_closure (A : Powerset X) : Powerset X :=
-    fun x => exists a, A a /\ a <=_X x.
-
-  Theorem upper_closure_of_pareto_equals_upper_closure_of_raw_achievable:
-    forall l,
-      (Inhabited X (RawAchievable l)) ->
-      Same_set X (upper_closure (ParetoFrontier l)) (upper_closure (RawAchievable l)).
-  Proof.
-    intros l H_ra_nonempty.
-    split.
-    - 
-      intros x Hx_uc_P.
-      unfold upper_closure in *.
-      destruct Hx_uc_P as [p [Hp_P Hp_le_x]].
-      assert (RawAchievable l p) by (apply pareto_frontier_is_subset_of_raw_achievable; exact Hp_P).
-      exists p; split; assumption.
-
-    - 
-      intros x Hx_uc_RA.
-      unfold upper_closure in *.
-      destruct Hx_uc_RA as [s [Hs_RA Hs_le_x]].
-      set (BetterThan_s := fun s' => RawAchievable l s' /\ s' <=_X s).
-      assert (H_BetterThan_s_nonempty : Inhabited X BetterThan_s)
-        by (exists s; split; [exact Hs_RA | apply le_X_refl]).
-      destruct (has_minimals BetterThan_s H_BetterThan_s_nonempty) as [p Hp_min_BetterThan_s].
-      destruct Hp_min_BetterThan_s as [p_in_BetterThan_s p_is_minimal_in_BetterThan_s].
-      destruct p_in_BetterThan_s as [Hp_RA Hp_le_s].
-      assert (p_is_in_ParetoFrontier : ParetoFrontier l p).
-      {
-        unfold ParetoFrontier, minimals.
-        split.
-        + 
-          exact Hp_RA.
-        + 
-          intros p' Hp'_RA Hp'_le_p.
-          assert (p'_le_s : p' <=_X s) by (apply le_X_trans with p; [exact Hp'_le_p | exact Hp_le_s]).
-          assert (p'_in_BetterThan_s : BetterThan_s p') by (unfold BetterThan_s; split; [exact Hp'_RA | exact p'_le_s]).
-          apply p_is_minimal_in_BetterThan_s; assumption.
-      }
-      assert (p_le_x : p <=_X x) by (apply le_X_trans with s; [exact Hp_le_s | exact Hs_le_x]).
-      exists p; split; [exact p_is_in_ParetoFrontier | exact p_le_x].
-  Qed.
-
-  End ParetoProperties.
-  
 
 End CANONICAL_CONSTRUCTION.
