@@ -12,7 +12,6 @@ Module Composition (S : SETTING).
 
   Import S.
 
-  (* Open a section to properly scope the parameters. *)
   Section CompositionSection.
 
     Context
