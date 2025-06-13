@@ -30,8 +30,6 @@ Module Composition (S : SETTING).
       (K_op2 : Lambda2 -> (Powerset X -> Powerset X))
       (K2_axioms : (forall l A, Included X A (K_op2 l A)) /\ (forall l A, Same_set X (K_op2 l (K_op2 l A)) (K_op2 l A)) /\ (forall l A B, Included X A B -> Included X (K_op2 l A) (K_op2 l B))).
 
-    (* All subsequent definitions and theorems go inside this section. *)
-
     Definition F (l1 : Lambda1) (l2 : Lambda2) (A : Powerset X) : Powerset X :=
       K_op2 l2 (K_op1 l1 A).
 
