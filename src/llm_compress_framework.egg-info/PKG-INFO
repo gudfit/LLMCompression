@@ -1,0 +1,24 @@
+Metadata-Version: 2.4
+Name: llm-compress-framework
+Version: 0.1.0
+Summary: Testing my Experimental framework for the thesis 'Is that the Lossy Horizon?'
+Author-email: "Daniel (Gudfit)" <guuudfit@gmail.com>
+Requires-Python: <3.11,>=3.10
+License-File: LICENSE
+Requires-Dist: torch>=2.1.0
+Requires-Dist: transformers>=4.40.0
+Requires-Dist: accelerate>=0.29.0
+Requires-Dist: datasets>=2.18.0
+Requires-Dist: bitsandbytes>=0.43.0
+Requires-Dist: auto-gptq>=0.7.1
+Requires-Dist: wanda
+Requires-Dist: sparsegpt
+Requires-Dist: evaluate>=0.4.1
+Requires-Dist: scikit-learn
+Requires-Dist: rouge_score
+Requires-Dist: pyyaml>=6.0
+Requires-Dist: pandas>=2.0.0
+Requires-Dist: matplotlib>=3.7.0
+Requires-Dist: seaborn>=0.13.0
+Requires-Dist: tqdm>=4.66.0
+Dynamic: license-file

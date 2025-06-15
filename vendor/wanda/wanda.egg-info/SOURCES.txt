@@ -1,0 +1,14 @@
+LICENSE
+README.md
+__init__.py
+main.py
+main_opt.py
+pyproject.toml
+./__init__.py
+./main.py
+./main_opt.py
+wanda.egg-info/PKG-INFO
+wanda.egg-info/SOURCES.txt
+wanda.egg-info/dependency_links.txt
+wanda.egg-info/requires.txt
+wanda.egg-info/top_level.txt

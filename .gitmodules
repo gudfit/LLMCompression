@@ -1,6 +1,0 @@
-[submodule "vendor/wanda"]
-	path = vendor/wanda
-	url = https://github.com/locuslab/wanda.git
-[submodule "vendor/sparsegpt"]
-	path = vendor/sparsegpt
-	url = https://github.com/IST-DASLab/sparsegpt.git

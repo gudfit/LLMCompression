@@ -1,0 +1,16 @@
+torch>=2.1.0
+transformers>=4.40.0
+accelerate>=0.29.0
+datasets>=2.18.0
+bitsandbytes>=0.43.0
+auto-gptq>=0.7.1
+wanda
+sparsegpt
+evaluate>=0.4.1
+scikit-learn
+rouge_score
+pyyaml>=6.0
+pandas>=2.0.0
+matplotlib>=3.7.0
+seaborn>=0.13.0
+tqdm>=4.66.0

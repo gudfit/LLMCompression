@@ -1093,7 +1093,7 @@ wheels = [
 
 [[package]]
 name = "sparsegpt"
-version = "0.0.2+local"
+version = "0.0.3+local"
 source = { directory = "vendor/sparsegpt" }
 dependencies = [
     { name = "torch" },
@@ -1254,7 +1254,7 @@ wheels = [
 
 [[package]]
 name = "wanda"
-version = "0.0.2+local"
+version = "0.0.3+local"
 source = { directory = "vendor/wanda" }
 dependencies = [
     { name = "torch" },
