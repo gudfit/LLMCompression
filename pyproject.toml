@@ -14,7 +14,7 @@ dependencies = [
   "datasets>=2.18.0",
   "bitsandbytes>=0.43.0",
 
-  # Compression frameworks (resolved via the vendored copies below)
+  # Compression frameworks
   "auto-gptq>=0.7.1",
   "wanda",
   "sparsegpt",
@@ -39,19 +39,13 @@ run-experiment = "main:main"
 requires       = ["setuptools>=68", "wheel"]
 build-backend  = "setuptools.build_meta"
 
-# ─────────────── uv-specific configuration ────────────────
-
-# 1.  A named index that contains only CUDA-12.1 wheels for PyTorch
 [[tool.uv.index]]
 name     = "pytorch-cu121"
 url      = "https://download.pytorch.org/whl/cu121"
-explicit = true          # uv will NOT fall back to PyPI for torch
+explicit = true          
 
-# 2.  Where uv should fetch special packages
 [tool.uv.sources]
-# Pull torch from the CUDA 12.1 index
 torch      = { index = "pytorch-cu121" }
 
-# Use the local vendored copies of Wanda and SparseGPT
 wanda      = { path = "vendor/wanda" }
 sparsegpt  = { path = "vendor/sparsegpt" }
