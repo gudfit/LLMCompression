@@ -1,63 +1,51 @@
-# Coq build artifacts
-*.glob
-*.vo
-*.vok
-*.vos
-*.aux
-.*.aux
+###############################################################################
+#  Python build & runtime artefacts
+###############################################################################
 
-# Coq project file
-_CoqProject
-
-
-# Mojo build artifacts
-*.mojo.so
-*.mojopkg/
-
-# Python bytecode
+# Byte-code caches
 __pycache__/
 *.py[cod]
 *$py.class
 
-# Python virtual environments
-.env
-.venv
-env/
+# Virtual environments (anywhere)
+.venv/
+.env/
 venv/
+env/
 ENV/
 env.bak/
 venv.bak/
+.uv/
 
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-share/python-wheels/
-*.egg-info/
-.installed.cfg
+###############################################################################
+#  Top-level build / distribution folders
+###############################################################################
+/.build/
+/dist/
+/build/
+/downloads/
+/sdist/
+/wheels/
+/lib/
+/lib64/
+/parts/
+/share/
+/develop-eggs/
+/eggs/
+/.eggs/
+/*.egg-info
 *.egg
 MANIFEST
 
-# PyInstaller
-#  Usually these files are created by a PyInstaller executable
-*.manifest
-*.spec
-
-# Installer logs
+###############################################################################
+#  Installer logs
+###############################################################################
 pip-log.txt
 pip-delete-this-directory.txt
 
-# Unit test / coverage reports
+###############################################################################
+#  Testing / coverage
+###############################################################################
 htmlcov/
 .tox/
 .nox/
@@ -70,13 +58,10 @@ coverage.xml
 *.py,cover
 .hypothesis/
 .pytest_cache/
-cover/
 
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# pyenv
+###############################################################################
+#  Jupyter & misc
+###############################################################################
+.ipynb_checkpoints/
 .python-version
-
-# General
 .DS_Store
