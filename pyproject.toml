@@ -1,0 +1,57 @@
+# ─────────── pyproject.toml at repository root ────────────
+[project]
+name            = "llm-compress-framework"
+version         = "0.1.0"
+description     = "Testing my Experimental framework for the thesis 'Is that the Lossy Horizon?'"
+authors         = [{ name = "Daniel (Gudfit)", email = "guuudfit@gmail.com" }]
+requires-python = ">=3.10,<3.11"
+
+dependencies = [
+  # Core DL & LLM
+  "torch>=2.1.0",
+  "transformers>=4.40.0",
+  "accelerate>=0.29.0",
+  "datasets>=2.18.0",
+  "bitsandbytes>=0.43.0",
+
+  # Compression frameworks (resolved via the vendored copies below)
+  "auto-gptq>=0.7.1",
+  "wanda",
+  "sparsegpt",
+
+  # Evaluation
+  "evaluate>=0.4.1",
+  "scikit-learn",
+  "rouge_score",
+
+  # Utilities
+  "pyyaml>=6.0",
+  "pandas>=2.0.0",
+  "matplotlib>=3.7.0",
+  "seaborn>=0.13.0",
+  "tqdm>=4.66.0",
+]
+
+[project.scripts]
+run-experiment = "main:main"
+
+[build-system]
+requires       = ["setuptools>=68", "wheel"]
+build-backend  = "setuptools.build_meta"
+
+# ─────────────── uv-specific configuration ────────────────
+
+# 1.  A named index that contains only CUDA-12.1 wheels for PyTorch
+[[tool.uv.index]]
+name     = "pytorch-cu121"
+url      = "https://download.pytorch.org/whl/cu121"
+explicit = true          # uv will NOT fall back to PyPI for torch
+
+# 2.  Where uv should fetch special packages
+[tool.uv.sources]
+# Pull torch from the CUDA 12.1 index
+torch      = { index = "pytorch-cu121" }
+
+# Use the local vendored copies of Wanda and SparseGPT
+wanda      = { path = "vendor/wanda" }
+sparsegpt  = { path = "vendor/sparsegpt" }
