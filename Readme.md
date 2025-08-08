@@ -1,4 +1,4 @@
-# Budget-Indexed Closure Operators (Coq)
+# Thesis Project: Budget-Indexed Closure Operators (Coq)
 
 Formalisation of **budget-indexed closure operators (BICOs)** and the **canonical operator** built from probabilistic "guaranteed regions." Includes single-budget, two-budget (decomposition), and multi-channel variants.
 
@@ -41,4 +41,4 @@ coqc BICO_Formalisation.v
 
 ## Contact / citation
 
-If you use this, please cite the repo. Feedback by issues/PRs is welcome once the draft settles.
+If you use this, please cite the repo. Feedback by issues/PRs is welcome once the draft settles. (Awaiting Arxiv Preprint)
